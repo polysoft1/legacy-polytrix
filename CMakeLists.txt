@@ -22,9 +22,16 @@ add_subdirectory("thousandeyes-futures")
 include_directories("thousandeyes-futures/include")
 
 # Use libmatrix-client
+SET(USE_CONAN OFF CACHE BOOL "Don't use conan in libmatrix-client")
+SET(USE_CPPRESTSDK OFF CACHE BOOL "Don't use CPPRESTSDK (directly) in libmatrix-client")
+
+
+# Use our interface with PolyChat's supplied HTTP sessions
+add_compile_definitions("USE_CUSTOM_HTTP_SESSION")
+
 add_subdirectory("libmatrix-client")
 include_directories("libmatrix-client/include")
-add_compile_definitions("USE_CUSTOM_HTTP_SESSION")
+
 
 # define the project
 set(CMAKE_CXX_STANDARD 17)
