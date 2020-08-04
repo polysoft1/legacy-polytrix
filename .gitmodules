@@ -1,0 +1,6 @@
+[submodule "thousandeyes-futures"]
+	path = thousandeyes-futures
+	url = https://github.com/thousandeyes/thousandeyes-futures.git
+[submodule "libmatrix-client"]
+	path = libmatrix-client
+	url = https://github.com/polysoft1/libmatrix-client.git
