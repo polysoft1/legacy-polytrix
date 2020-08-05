@@ -3,9 +3,7 @@
 
 #include "PolyTrix.h"
 #include "MatrixAccountSession.h"
-#include "Command.h"
 
-#include "include/ICommunicator.h"
 #include "include/IAccountManager.h"
 
 #include <string>
@@ -35,10 +33,6 @@ PolyTrix::~PolyTrix() {
 
 bool PolyTrix::initialize(ICore* core) {
 	this->core = core;
-
-	std::shared_ptr<ICommand> command = std::make_shared<Command>(*core, *this);
-
-	core->getCommandHandler().registerCommand(command, "Matrix", this);
 
 	return true;
 }

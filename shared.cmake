@@ -29,3 +29,5 @@ add_custom_target(create_zip
 	WORKING_DIRECTORY ${OUTPUT_DIR}
 )
 add_dependencies(create_zip json_creation PolyTrix)
+
+target_link_libraries(PolyTrix PRIVATE nlohmann_json::nlohmann_json)

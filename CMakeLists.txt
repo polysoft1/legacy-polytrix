@@ -17,6 +17,10 @@ SET(CMAKE_ARCHIVE_OUTPUT_DIRECTORY_RELEASE ${OUTPUT_DIR})
 set(src src/PolyTrix.cpp src/MatrixAccountSession.cpp)
 include_directories(src)
 
+# JSON needed for sub-project
+find_package(nlohmann_json REQUIRED)
+message("JSON INCLUDE: " ${NLOHMANN_JSON_INCLUDE_DIRS})
+
 # Support for better async stuff with futures using thousandeyes-futures.
 add_subdirectory("thousandeyes-futures")
 include_directories("thousandeyes-futures/include")

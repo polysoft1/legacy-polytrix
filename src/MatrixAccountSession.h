@@ -1,5 +1,5 @@
-#ifndef SERVERLESS_ACCOUNT
-#define SERVERLESS_ACCOUNT
+#ifndef MATRIX_ACCOUNT
+#define MATRIX_ACCOUNT
 
 #include <string>
 #include <map>
@@ -15,13 +15,13 @@ namespace Polychat {
 class IAccount;
 }
 
-namespace ServerlessTestPlugin {
+namespace PolyTrixPlugin {
 
 /**
- * Represents a user on Serverless. Can be the logged in user
+ * Represents a user on Matrix. Can be the logged in user
  * or just another team member.
  */
-class ServerlessAccountSession : public Polychat::IProtocolSession {
+class MatrixAccountSession : public Polychat::IProtocolSession {
 private:
 	IAccount& coreAccount;
 
@@ -30,7 +30,7 @@ private:
 	LibMatrix::MatrixSession backendSession;
 
 public:
-	explicit ServerlessAccountSession(Polychat::IAccount& coreAccount, Polychat::ICore& core,
+	explicit MatrixAccountSession(Polychat::IAccount& coreAccount, Polychat::ICore& core,
 		std::string serverAddr, std::string name, std::string password);
 
 	virtual IAccount& getAccount() {
@@ -45,12 +45,8 @@ public:
 
 	virtual void sendMessageAction(std::shared_ptr<Message>, MessageAction);
 
-	void addTeam(std::string teamName);
-	void addConversation(std::string teamName, std::string conversationName);
-	void addMsgToConversation(std::string teamName, std::string conversationName, std::string sender, std::string msg);
-
 };
 
 }
 
-#endif // !SERVERLESS_ACCOUNT
+#endif // !Matrix_ACCOUNT
