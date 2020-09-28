@@ -4,6 +4,7 @@
 #include <string>
 #include <vector>
 #include <set>
+#include "libmatrix-client/include/libmatrix-client/HTTP.h"
 
 using namespace Polychat;
 
@@ -43,6 +44,8 @@ public:
 	virtual bool usesTeams() { return false; }
 
 	std::unordered_map<std::string, std::shared_ptr<MatrixAccountSession>>& getSessions();
+
+	LibMatrix::HTTPClientBase* httpInitializer(const std::string& basePath);
 
 private:
 	ICore* core = nullptr;

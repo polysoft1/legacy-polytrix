@@ -31,3 +31,7 @@ add_custom_target(create_zip
 add_dependencies(create_zip json_creation PolyTrix)
 
 target_link_libraries(PolyTrix PRIVATE nlohmann_json::nlohmann_json)
+
+target_link_libraries(PolyTrix PRIVATE libmatrix-client-static)
+
+target_link_libraries(PolyTrix PRIVATE ${LIBMATRIX_CLIENT})

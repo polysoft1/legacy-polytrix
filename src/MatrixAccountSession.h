@@ -29,6 +29,10 @@ private:
 
 	LibMatrix::MatrixSession backendSession;
 
+	void doSync();
+
+	bool isSyncing = false;
+
 public:
 	explicit MatrixAccountSession(Polychat::IAccount& coreAccount, Polychat::ICore& core,
 		std::string serverAddr, std::string name, std::string password);

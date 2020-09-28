@@ -14,16 +14,11 @@ SET(CMAKE_LIBRARY_OUTPUT_DIRECTORY_RELEASE ${OUTPUT_DIR})
 SET(CMAKE_ARCHIVE_OUTPUT_DIRECTORY_DEBUG ${OUTPUT_DIR})
 SET(CMAKE_ARCHIVE_OUTPUT_DIRECTORY_RELEASE ${OUTPUT_DIR})
 
-set(src src/PolyTrix.cpp src/MatrixAccountSession.cpp)
+set(src src/PolyTrix.cpp src/MatrixAccountSession.cpp src/PolyChatHTTPClient.cpp)
 include_directories(src)
 
 # JSON needed for sub-project
-find_package(nlohmann_json REQUIRED)
-message("JSON INCLUDE: " ${NLOHMANN_JSON_INCLUDE_DIRS})
-
-# Support for better async stuff with futures using thousandeyes-futures.
-add_subdirectory("thousandeyes-futures")
-include_directories("thousandeyes-futures/include")
+ find_package(nlohmann_json CONFIG REQUIRED)
 
 # Use libmatrix-client
 SET(USE_CONAN OFF CACHE BOOL "Don't use conan in libmatrix-client")
@@ -35,7 +30,6 @@ add_compile_definitions("USE_CUSTOM_HTTP_SESSION")
 
 add_subdirectory("libmatrix-client")
 include_directories("libmatrix-client/include")
-
 
 # define the project
 set(CMAKE_CXX_STANDARD 17)

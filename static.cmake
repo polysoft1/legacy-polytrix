@@ -18,3 +18,7 @@ list(APPEND STATIC_INCLUDE_DIRS ${PROJECT_BINARY_DIR})
 #endif()
 set_target_properties(PolyTrixStatic PROPERTIES INCLUDE_DIRECTORIES "${STATIC_INCLUDE_DIRS}")
 target_link_libraries(PolyTrixStatic PRIVATE nlohmann_json::nlohmann_json)
+
+target_link_libraries(PolyTrixStatic PRIVATE libmatrix-client-static)
+
+target_link_libraries(PolyTrixStatic PRIVATE ${LIBMATRIX_CLIENT})
