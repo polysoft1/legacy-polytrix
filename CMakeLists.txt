@@ -26,7 +26,7 @@ SET(USE_CPPRESTSDK OFF CACHE BOOL "Don't use CPPRESTSDK (directly) in libmatrix-
 
 
 # Use our interface with PolyChat's supplied HTTP sessions
-add_compile_definitions("USE_CUSTOM_HTTP_SESSION")
+add_compile_definitions("LIBMATRIX_USE_CUSTOM_HTTP_SESSION")
 
 add_subdirectory("libmatrix-client")
 include_directories("libmatrix-client/include")
