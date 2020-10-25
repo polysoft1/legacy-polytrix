@@ -34,4 +34,4 @@ target_link_libraries(PolyTrix PRIVATE nlohmann_json::nlohmann_json)
 
 target_link_libraries(PolyTrix PRIVATE libmatrix-client-static)
 
-target_link_libraries(PolyTrix PRIVATE ${LIBMATRIX_CLIENT})
+#target_link_libraries(PolyTrix PUBLIC ${LIBMATRIX_CLIENT})
