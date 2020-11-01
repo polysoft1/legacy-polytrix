@@ -7,6 +7,7 @@ set(json_file ${OUTPUT_DIR}/plugin.json)
 ADD_LIBRARY(PolyTrix SHARED ${src})
 
 get_target_property(DYN_INCLUDE_DIRS PolyTrix INCLUDE_DIRECTORIES)
+target_compile_definitions(PolyTrix PUBLIC -DPOLYTRIX_SHARED)
 list(APPEND DYN_INCLUDE_DIRS ${PROJECT_SOURCE_DIR})
 list(APPEND DYN_INCLUDE_DIRS ${PROJECT_BINARY_DIR})
 #if(DEFINED POLYCHAT)

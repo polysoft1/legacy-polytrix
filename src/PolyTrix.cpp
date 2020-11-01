@@ -1,6 +1,3 @@
-#ifndef Matrix_TEST
-#define Matrix_TEST
-
 #include "PolyTrix.h"
 #include "MatrixAccountSession.h"
 
@@ -77,6 +74,7 @@ LibMatrix::HTTPClientBase* PolyTrix::httpInitializer(const std::string& basePath
 }
 
 
+#ifdef POLYTRIX_SHARED
 extern "C" {
 #ifdef _WIN32
 	__declspec(dllexport) PolyTrix* create()
