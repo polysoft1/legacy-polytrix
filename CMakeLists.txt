@@ -15,7 +15,7 @@ SET(CMAKE_ARCHIVE_OUTPUT_DIRECTORY_DEBUG ${OUTPUT_DIR})
 SET(CMAKE_ARCHIVE_OUTPUT_DIRECTORY_RELEASE ${OUTPUT_DIR})
 
 if(NOT WIN32)
-	set(CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} -fPIC -std=c++17" )
+	set(CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} -fPIC -std=c++17 -D_GLIBCXX_USE_CXX11_ABI=0")
 endif()
 
 set(src src/PolyTrix.cpp src/MatrixAccountSession.cpp src/PolyChatHTTPClient.cpp)
