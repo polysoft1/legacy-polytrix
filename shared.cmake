@@ -7,6 +7,7 @@ set(json_file ${OUTPUT_DIR}/plugin.json)
 ADD_LIBRARY(PolyTrix SHARED ${src})
 
 get_target_property(DYN_INCLUDE_DIRS PolyTrix INCLUDE_DIRECTORIES)
+target_compile_definitions(PolyTrix PUBLIC -DPOLYTRIX_SHARED)
 list(APPEND DYN_INCLUDE_DIRS ${PROJECT_SOURCE_DIR})
 list(APPEND DYN_INCLUDE_DIRS ${PROJECT_BINARY_DIR})
 #if(DEFINED POLYCHAT)
@@ -21,7 +22,7 @@ add_custom_target(json_creation)
 add_dependencies(json_creation PolyTrix)
 add_custom_command(TARGET json_creation
 	POST_BUILD
-	COMMAND cmake -DHOME="${CMAKE_HOME_DIRECTORY}" -DEXECUTABLE="${executable_filename}" -DOUT_DIR="${OUTPUT_DIR}" -DJSON_FILE="plugin.json" -DCMAKE_SYSTEM_NAME="${CMAKE_SYSTEM_NAME}" -P ${CMAKE_HOME_DIRECTORY}/jsoncreate.cmake
+	COMMAND cmake -DHOME="${CMAKE_HOME_DIRECTORY}" -DEXECUTABLE="${executable_filename}" -DOUT_DIR="${OUTPUT_DIR}" -DJSON_FILE="plugin.json" -DCMAKE_SYSTEM_NAME="${CMAKE_SYSTEM_NAME}" -DPROJECT_NAME="polytrix" -P ${CMAKE_HOME_DIRECTORY}/jsoncreate.cmake
 ) 
 
 add_custom_target(create_zip
