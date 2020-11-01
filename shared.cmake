@@ -21,7 +21,7 @@ add_custom_target(json_creation)
 add_dependencies(json_creation PolyTrix)
 add_custom_command(TARGET json_creation
 	POST_BUILD
-	COMMAND cmake -DHOME="${CMAKE_HOME_DIRECTORY}" -DEXECUTABLE="${executable_filename}" -DOUT_DIR="${OUTPUT_DIR}" -DJSON_FILE="plugin.json" -DCMAKE_SYSTEM_NAME="${CMAKE_SYSTEM_NAME}" -P ${CMAKE_HOME_DIRECTORY}/jsoncreate.cmake
+	COMMAND cmake -DHOME="${CMAKE_HOME_DIRECTORY}" -DEXECUTABLE="${executable_filename}" -DOUT_DIR="${OUTPUT_DIR}" -DJSON_FILE="plugin.json" -DCMAKE_SYSTEM_NAME="${CMAKE_SYSTEM_NAME}" -DPROJECT_NAME="polytrix" -P ${CMAKE_HOME_DIRECTORY}/jsoncreate.cmake
 ) 
 
 add_custom_target(create_zip
