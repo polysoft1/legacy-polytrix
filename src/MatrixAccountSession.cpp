@@ -19,6 +19,7 @@ MatrixAccountSession::MatrixAccountSession(Polychat::IAccount& coreAccount, Poly
 	std::function<void(std::future<void>&)> callback = [&core, &coreAccount, this](std::future<void>& result) {
 		try {
 			result.get();
+			coreAccount.setUID(backendSession.getUserID());
 			core.getAccountManager().alertOfSessionChange(coreAccount, AuthStatus::AUTHENTICATED);
 		} catch (...) {
 			core.getAccountManager().alertOfSessionChange(coreAccount, AuthStatus::FAIL_HTTP_ERROR);
