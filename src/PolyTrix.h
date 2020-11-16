@@ -5,6 +5,9 @@
 #include <vector>
 #include <set>
 #include "libmatrix-client/include/libmatrix-client/HTTP.h"
+#include <unordered_map>
+#include <map>
+
 
 using namespace Polychat;
 
