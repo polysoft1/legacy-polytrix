@@ -3,12 +3,11 @@
 
 #include <string>
 #include <map>
-#include <libmatrix-client/MatrixSession.h>
+#include <mtxclient/http/client.hpp>
 #include "include/IProtocolSession.h"
 #include "include/ICore.h"
 #include "include/ITeam.h"
 
-class PolyMost;
 using namespace Polychat;
 
 namespace Polychat {
@@ -16,6 +15,8 @@ class IAccount;
 }
 
 namespace PolyTrixPlugin {
+class PolyTrix;
+
 
 /**
  * Represents a user on Matrix. Can be the logged in user
@@ -25,17 +26,19 @@ class MatrixAccountSession : public Polychat::IProtocolSession {
 private:
 	IAccount& coreAccount;
 
+	PolyTrix& plugin;
+
 	Polychat::ICore& core;
 
-	LibMatrix::MatrixSession backendSession;
+	std::shared_ptr<mtx::http::Client> client;
 
 	void doSync();
 
 	bool isSyncing = false;
 
 public:
-	explicit MatrixAccountSession(Polychat::IAccount& coreAccount, Polychat::ICore& core,
-		std::string serverAddr, std::string name, std::string password);
+	explicit MatrixAccountSession(PolyTrix& plugin, Polychat::IAccount& coreAccount,
+		Polychat::ICore& core, std::string serverAddr, std::string name, std::string password);
 
 	virtual IAccount& getAccount() {
 		return coreAccount;
@@ -48,6 +51,8 @@ public:
 	virtual bool isValid();
 
 	virtual void sendMessageAction(std::shared_ptr<Message>, MessageAction);
+
+	void onSync(const mtx::responses::Sync sync, mtx::http::RequestErr err);
 
 };
 

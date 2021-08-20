@@ -10,13 +10,9 @@ get_target_property(DYN_INCLUDE_DIRS PolyTrix INCLUDE_DIRECTORIES)
 target_compile_definitions(PolyTrix PUBLIC -DPOLYTRIX_SHARED)
 list(APPEND DYN_INCLUDE_DIRS ${PROJECT_SOURCE_DIR})
 list(APPEND DYN_INCLUDE_DIRS ${PROJECT_BINARY_DIR})
-#if(DEFINED POLYCHAT)
-	#target_include_directories(PolyTrix PUBLIC ${POLYCHAT_INCLUDE})
-	#list(APPEND DYN_INCLUDE_DIRS ${POLYCHAT})
-	#message("Including ${POLYCHAT}")
-	#target_link_libraries(PolyTrix ${POLYCHAT}/target/${CMAKE_SHARED_LIBRARY_PREFIX}PolyChat${CMAKE_SHARED_LIBRARY_SUFFIX})
-#endif()
-set_target_properties(PolyTrix PROPERTIES INCLUDE_DIRECTORIES "${DYN_INCLUDE_DIRS}")
+
+
+#set_target_properties(PolyTrix PROPERTIES INCLUDE_DIRECTORIES "${DYN_INCLUDE_DIRS}")
 
 add_custom_target(json_creation)
 add_dependencies(json_creation PolyTrix)
@@ -32,7 +28,11 @@ add_custom_target(create_zip
 add_dependencies(create_zip json_creation PolyTrix)
 
 target_link_libraries(PolyTrix PRIVATE nlohmann_json::nlohmann_json)
+target_link_libraries(PolyTrix PUBLIC 
+	MatrixClient::MatrixClient
+	coeurl::coeurl
+	OpenSSL::Crypto
+	OpenSSL::SSL
+	Olm::Olm
+	nlohmann_json::nlohmann_json)
 
-target_link_libraries(PolyTrix PRIVATE libmatrix-client-static)
-
-#target_link_libraries(PolyTrix PUBLIC ${LIBMATRIX_CLIENT})

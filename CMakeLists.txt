@@ -18,22 +18,22 @@ if(NOT WIN32)
 	set(CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} -fPIC -std=c++17 -D_GLIBCXX_USE_CXX11_ABI=0")
 endif()
 
-set(src src/PolyTrix.cpp src/MatrixAccountSession.cpp src/PolyChatHTTPClient.cpp)
+set(src src/PolyTrix.cpp src/MatrixAccountSession.cpp)
 include_directories(src)
 
 # JSON needed for sub-project
  find_package(nlohmann_json CONFIG REQUIRED)
+ find_package(MatrixClient CONFIG REQUIRED)
+ find_package(coeurl CONFIG REQUIRED)
+ find_package(OpenSSL REQUIRED)
+ find_package(Olm 3)
 
-# Use libmatrix-client
-SET(USE_CONAN OFF CACHE BOOL "Don't use conan in libmatrix-client")
-SET(USE_CPPRESTSDK OFF CACHE BOOL "Don't use CPPRESTSDK (directly) in libmatrix-client")
 
 
-# Use our interface with PolyChat's supplied HTTP sessions
-add_compile_definitions("LIBMATRIX_USE_CUSTOM_HTTP_SESSION")
+ message("MatrixClient DIR: ${MatrixClient_DIR}")
 
-add_subdirectory("libmatrix-client")
-include_directories("libmatrix-client/include")
+include_directories(${MTXCLIENT_INCLUDE_DIR})
+include_directories(${COEURL_INCLUDE_DIR})
 
 # define the project
 set(CMAKE_CXX_STANDARD 17)
