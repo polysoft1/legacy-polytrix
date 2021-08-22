@@ -26,6 +26,7 @@ MatrixAccountSession::MatrixAccountSession(PolyTrix& plugin, Polychat::IAccount&
 	: plugin(plugin), coreAccount(coreAccount), core(core)
 {
 	olmAccountFilePath = std::filesystem::path(plugin.getFolderPath()).append(name + "_account.json").u8string();
+	olmDBFilePath = std::filesystem::path(plugin.getFolderPath()).append(name + "_data.json").u8string();
 	client = std::make_shared<mtx::http::Client>(serverAddr);
 	loadOlm();
 
@@ -46,7 +47,7 @@ void MatrixAccountSession::loadOlm() {
 			STORAGE_KEY);
 
 	storage.logger = &core.getLogger();
-	storage.load();
+	storage.load(olmDBFilePath);
 
 }
 
@@ -54,7 +55,7 @@ void MatrixAccountSession::loadOlm() {
 void MatrixAccountSession::shutdownSave()
 {
 	storage.logger->info("Saving OLM account data");
-	storage.save();
+	storage.save(olmDBFilePath);
 
 	std::ofstream db(olmAccountFilePath);
 	if (!db.is_open()) {
@@ -601,6 +602,8 @@ MatrixAccountSession::save_device_keys(const mtx::responses::QueryKeys& res)
 
 		if (!exists(storage.devices, user_id))
 			storage.logger->info(std::string("keys for user ").append(user_id));
+		else
+			storage.logger->info(std::string("overwriting keys for user ").append(user_id));
 
 		std::vector<std::string> device_list;
 		for (const auto& device : entry.second) {
@@ -624,9 +627,9 @@ MatrixAccountSession::save_device_keys(const mtx::responses::QueryKeys& res)
 			device_list.push_back(device_id);
 		}
 
-		if (!exists(storage.devices, user_id)) {
-			storage.devices[user_id] = device_list;
-		}
+		//if (!exists(storage.devices, user_id)) {
+		storage.devices[user_id] = device_list;
+		//}
 	}
 }
 
@@ -644,6 +647,9 @@ MatrixAccountSession::get_device_keys(const UserId& user)
 			return;
 		}
 
+
+		int numVerified = 0;
+		int numDeviceKeys = 0;
 		for (const auto& key : res.device_keys) {
 			const auto user_id = key.first;
 			const auto devices = key.second;
@@ -651,6 +657,8 @@ MatrixAccountSession::get_device_keys(const UserId& user)
 			for (const auto& device : devices) {
 				const auto id = device.first;
 				const auto data = device.second;
+
+				numDeviceKeys++;
 
 				try {
 					auto ok = verify_identity_signature(
@@ -660,6 +668,7 @@ MatrixAccountSession::get_device_keys(const UserId& user)
 						storage.logger->warning("signature could not be verified");
 						storage.logger->warning(json(data).dump(2));
 					}
+					numVerified++;
 				}
 				catch (const mtx::crypto::olm_exception& e) {
 					storage.logger->warning(e.what());
@@ -670,6 +679,8 @@ MatrixAccountSession::get_device_keys(const UserId& user)
 			}
 		}
 
+		storage.logger->info(std::string("Successfully got device keys for user ").append(user).append(". Saving ")
+			.append(std::to_string(numDeviceKeys)).append(" with verified: ").append(std::to_string(numVerified)));
 		save_device_keys(res);
 	});
 }

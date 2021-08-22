@@ -44,6 +44,7 @@ private:
 	bool isSyncing = false;
 
 	std::string olmAccountFilePath;
+	std::string olmDBFilePath;
 
 	void loadOlm();
 	void onLogin(const mtx::responses::Login& res, mtx::http::RequestErr err);

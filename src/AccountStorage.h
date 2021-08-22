@@ -204,11 +204,11 @@ struct Storage
         return inbound_group_sessions[key].get();
     }
 
-    void load()
+    void load(std::string dbFile)
     {
         logger->info("restoring storage");
 
-        std::ifstream db("db.json");
+        std::ifstream db(dbFile);
         std::string db_data((std::istreambuf_iterator<char>(db)), std::istreambuf_iterator<char>());
 
         if (db_data.empty())
@@ -258,11 +258,11 @@ struct Storage
         }
     }
 
-    void save()
+    void save(std::string dbFile)
     {
         logger->info("saving storage");
 
-        std::ofstream db("db.json");
+        std::ofstream db(dbFile);
         if (!db.is_open()) {
             logger->critical("couldn't open file to save keys");
             return;
