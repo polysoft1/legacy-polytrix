@@ -23,7 +23,8 @@ public:
 	virtual std::string getPluginName() const;
 	virtual std::string getProtocolName() const;
 
-	virtual bool initialize(ICore* core);
+	virtual bool initialize(ICore& core);
+	virtual void shutdown(ICore& core);
 
 	virtual std::string getDatabaseName() const;
 
@@ -48,6 +49,8 @@ public:
 	virtual bool usesTeams() { return false; };
 
 	std::unordered_map<std::string, std::shared_ptr<MatrixAccountSession>>& getSessions();
+
+	std::filesystem::path getFolderPath();
 
 private:
 	ICore* core = nullptr;

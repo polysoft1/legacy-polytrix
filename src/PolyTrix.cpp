@@ -29,10 +29,17 @@ PolyTrix::~PolyTrix() {
 
 }
 
-bool PolyTrix::initialize(ICore* core) {
-	this->core = core;
+bool PolyTrix::initialize(ICore& core) {
+	this->core = &core;
 
 	return true;
+}
+
+void PolyTrix::shutdown(ICore& core) {
+	std::filesystem::create_directory(getFolderPath());
+	for (auto session : sessions) {
+		session.second->shutdownSave();
+	}
 }
 
 std::string PolyTrix::getDatabaseName() const {
@@ -59,6 +66,11 @@ std::unordered_map<std::string, std::shared_ptr<MatrixAccountSession>>& PolyTrix
 	return sessions;
 }
 
+std::filesystem::path PolyTrix::getFolderPath() {
+	std::filesystem::path path = core->getFileUtil().getPluginsFolderPath();
+	path.append("polytrix");
+	return path;
+}
 
 #ifdef POLYTRIX_SHARED
 extern "C" {
